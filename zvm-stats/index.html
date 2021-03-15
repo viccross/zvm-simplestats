@@ -1,10 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>z/VM System -- overall stats</title>
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="w3ds/w3ds.css" type="text/css">
 <style>
 
   * {
@@ -54,55 +53,55 @@
   }
 
 div#wrapper {
+  position:absolute;
   width: 100%;
   height: 100%;
+  top: 0px;
+  left: 0px;
 }
 </style>
 </head>
 
-<body class="ds-has-sticky-footer">
-<!--#include virtual="/meta_header.html" -->
+<body style="font-family: sans-serif;">
+<div id="overlay"></div>
+<div id="specialMem" class="specialBox">
+<h3>z/VM Page Space Allocation</h3>
+<pre id="allocpage"></pre>
+<button onmousedown="toggleOverlay('specialMem')" style="text-align: center;">Close</button>
+</div>
+<div id="specialCPU" class="specialBox">
+<h3>z/VM "Indicate Load" Output</h3>
+<pre id="indicate"></pre>
+<button onmousedown="toggleOverlay('specialCPU')">Close</button>
+</div>
+
 <div id="wrapper">
 <div class="wrapper">
-<div class="ds-overlay-container">
-<div class="ds-overlay" id="overlayMem" aria-hidden="false" role="dialog">
-<div class="ds-shadow-floating ds-overlay-box ds-col-xs-10 ds-offset-xs-3 ds-mar-t-3 ds-col-md-8 ds-offset-md-2 ds-col-lg-6 ds-offset-lg-3">
-<div id="specialMem" class="ds-row ds-overlay-content">
-<h2>z/VM Page Space Allocation</h2><br />
-<pre id="allocpage"></pre>
-</div></div></div></div>
-<div class="ds-overlay-container">
-<div class="ds-overlay" id="overlayCPU" aria-hidden="false" role="dialog">
-<div class="ds-shadow-floating ds-overlay-box ds-col-xs-10 ds-offset-xs-3 ds-mar-t-3 ds-col-md-8 ds-offset-md-2 ds-col-lg-6 ds-offset-lg-3">
-<div id="specialCPU" class="ds-row ds-overlay-content">
-<h2>z/VM "Indicate Load" Output</h2><br />
-<pre id="indicate"></pre>
-</div></div></div></div>
 <center>
-  <h1>z/VM Metrics for your Openshift Container Platform Demonstration System</h1>
+  <h1>Metrics for your z/VM System</h1>
   <p>
 <div id="timestamp"></div>
   </p>
 </center>
   <div class="container">
     <div id="gg1" class="gauge"></div>
-    <div id="gg2" class="gauge" onmousedown="refreshIndicate();" data-element="overlayCPU"></div>
+    <div id="gg2" class="gauge" onmousedown="refreshIndicate(); toggleOverlay('specialCPU')"></div>
   </div>
   <div class="container">
     <div id="gg3" class="gauge"></div>
-    <div id="gg5" class="gauge" onmousedown="refreshAllocPage();" data-element="overlayMem"></div>
+    <div id="gg5" class="gauge" onmousedown="refreshAllocPage(); toggleOverlay('specialMem')"></div>
     <div id="gg4" class="gauge"></div>
   </div>
 <center>
   <p>
-<i>Summary:</i> <div id="topic"><!--#include virtual="/topic.txt" --></div>
+<i>Summary:</i> <div id="topic"><!--#include virtual="topic.txt" --></div>
   </p>
 </center>
 </div>
-<div class="footer ds-sticky-footer">
+<div class="footer">
 <table width=100%><tr height=60px>
 <td width=120px><img width=52px height=52px src="magic_penguin.png"></td>
-<td width="*"><center><h6>&copy; IBM Corporation 2020</h6></center></td>
+<td width="*"><center><h6>&copy; IBM Corporation 2021</h6></center></td>
 <td width=120px><img src="IBMlogo.jpg"></td>
 </tr></table>
 </div>
@@ -111,8 +110,6 @@ div#wrapper {
   <script src="justgage/justgage.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", function(event) {
-
-    document.getElementById("metrics-nav").classList.add("ds-active");
 
     var dflt = {
       valueFontFamily: '"IBMPlexSans","Helvetica Neue",Helvetica,Arial,sans-serif',
@@ -127,28 +124,24 @@ div#wrapper {
 
     var gg1 = new JustGage({
       id: 'gg1',
-<!-- include virtual="/count.txt" -->
       title: 'Guest count',
       defaults: dflt
     });
 
     var gg2 = new JustGage({
       id: 'gg2',
-<!-- include virtual="/cpu.txt" -->
       title: 'CPU percent',
       defaults: dflt
     });
 
     var gg3 = new JustGage({
       id: 'gg3',
-<!-- include virtual="/paging.txt" -->
       title: 'Paging/sec',
       defaults: dflt
     });
 
     var gg4 = new JustGage({
       id: 'gg4',
-<!-- include virtual="/mem.txt" -->
       title: 'Memory (MB)',
       defaults: dflt
     });
@@ -225,7 +218,19 @@ div#wrapper {
       xhttpstat.send();
     };
 
+function toggleOverlay(specialName){
+    var overlay = document.getElementById('overlay');
+    var specialBox = document.getElementById(specialName);
+    overlay.style.opacity = .8;
+    if(overlay.style.display == "block"){
+      overlay.style.display = "none";
+      specialBox.style.display = "none";
+    } else {
+      overlay.style.display = "block";
+      specialBox.style.display = "block";
+    }
+}
+
 </script>
-<script src="w3ds/w3ds.js"></script>
 </body>
 </html>
