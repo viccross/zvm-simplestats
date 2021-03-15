@@ -94,7 +94,7 @@ div#wrapper {
   </div>
 <center>
   <p>
-<i>Summary:</i> <div id="topic"><!--#include virtual="topic.txt" --></div>
+<i>Summary:</i> <div id="topic"> </div>
   </p>
 </center>
 </div>
@@ -153,6 +153,7 @@ div#wrapper {
     });
 
     refreshDials(gg1, gg2, gg3, gg4, gg5);
+    refreshTopic();
     setupRefresh(30000);
 
     function setupRefresh(timeoutPeriod){
