@@ -8,7 +8,7 @@ As part of showcasing the experiment as part of the former Brisbane TEC, I creat
 That version used the IRC bot as a backend to write files that were read by Javascript in the browser.
 
 With the FastVM project, I decided to make the tool standalone.
-The file-writing part was broken out of the IRC bot and converted to Bash (from Perl).
+The file-writing part was broken out of the IRC bot and made standalone.
 Later, I also changed from writing discrete files for each statistic to a single file in JSON format.
 
 ## Components
