@@ -1,0 +1,4 @@
+# crontab file for the generation of metrics files
+MAILTO=root
+PATH=/usr/bin:/usr/sbin:/usr/local/bin:/sbin:/bin
+* * * * * root /usr/local/sbin/metrics.pl
