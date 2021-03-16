@@ -48,3 +48,29 @@ This class can be added to the existing class "G" used for the guest.
 * Set up to run `metrics.pl` at regular intervals (sample crontab file could be installed as `/etc/cron.d/metrics` in many cron implementations, to execute the script every minute)
 
 The page will be available at http://your.web.server/zvm-stats
+
+## Usage
+The page shows five metrics of the z/VM system:
+* Number of logged-on guests
+* CPU utilisation (percent of total CPU available)
+* Paging rate
+* Page space utilised (percent)
+* LPAR memory available
+
+The non-percentage graphs rescale according to the value shown.
+This is particularly relevant to the paging rate graph, which may give an impression of a high paging rate when in reality the system could sustain much greater rates of paging.
+Because it is very difficult to determine how much paging is "too much", an appropriate way to scale this dial so that it conveys an appropriate sense of urgency at excessive paging is still a topic of debate.
+
+The memory graph does not scale, but the maximum value on the graph reflects the total possible amount of memory (i.e. base plus reserved) the LPAR has access to.  So on an LPAR with 20G of base memory and 80G reserved memory, the graph maximum will be at 100G (and the needle pointing to 20G as you might expect).
+
+### Detail views
+Clicking on the CPU utilisation or Page space usage graphs shows an overlay that displays the z/VM command output that provides the data.
+This allows some additional detail to be seen.
+For CPU utilisation, the overlay shows the output of the z/VM `INDICATE LOAD` command which provides per-CPU utilisation as well as polarisation detail.
+For Page space, the overlay shows the output of the `QUERY ALLOC PAGE` command and illustrates per-volume page space utilisation.
+
+## Futures
+Some possible future features include:
+* "Virtual-to-real" graph, to show memory over-commitment
+* Display of SMT factors (MT ratio, core utilisation, etc)
+* Option to write data externally (RRDtool, Influx, etc) for more than just point-in-time view 
