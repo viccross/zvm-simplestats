@@ -15,16 +15,20 @@ This version is essentially the one from FastVM, only with the IBM-internal pres
 
 ## Components
 The components of the tool are as follows:
-* HTTP server (not part of this distributable - any server is usable after the Apache SSI dependency was removed)
 * Perl script (invoked by `cron`) to generate JSON and text files
 * HTML page served by Apache and containing Javascript code to query and process JSON file and draw the dials.
 
 ### Dependencies
-The tool is dependent on the following code:
+* HTTP server (any server is usable now that there is no Apache SSI dependency)
+* Perl (whatever comes with your Linux should be fine)
+* `vmcp` (to issue z/VM commands).  `vmcp` is usually run by UID 0, but you can run under a different user id if you prefer by doing the following:
+  * Create a user for running the Perl script.  This user would require access to write to the `zvm-stats` directory under the webroot
+  * Set up `sudo` to allow the user runing the script to issue `vmcp`
+  * Either edit the script and replace `vmcp` with `sudo vmcp` or alias `vmcp` to `sudo vmcp` for the user
+
+The following code is included under the terms of their respective licences (MIT License):
 * JustGage 
 * Raphael vector image library (version 2.1.4 supplied)
-
-These dependencies are included under the terms of their respective licences (MIT License)
 
 To get full information display the z/VM guest in which the Perl script runs must have z/VM command authority to issue the following:
 * `INDICATE LOAD`
@@ -41,11 +45,12 @@ The following commands will create a new class "K" containing the required comma
 This class can be added to the existing class "G" used for the guest.
 
 ## Installation
-* Download the release file
+* Download and unwind the release file
 * Copy the Perl script to `/usr/local/sbin` (or equivalent)
 * Modify the `httpdir` path in the script as necessary
 * Copy the `zvm-stats` directory to the `httpdir`
 * Set up to run `metrics.pl` at regular intervals (sample crontab file could be installed as `/etc/cron.d/metrics` in many cron implementations, to execute the script every minute)
+* (Optional) set up non-root execution as described above
 
 The page will be available at http://your.web.server/zvm-stats
 
