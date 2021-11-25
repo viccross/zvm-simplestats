@@ -7,11 +7,11 @@ The main interface into that system was via the IRC bot that controlled it, or v
 As part of showcasing the experiment as part of the former Brisbane TEC, I created the original version.
 That version used the IRC bot as a backend to write files that were read by Javascript in the browser.
 
-With the FastVM project we required a simple page to show basic z/VM stats so I decided to include the tool from the IRC bot.
+With the z/VM Express System Installation project we required a simple page to show basic z/VM stats so I decided to include the tool from the IRC bot.
 The file-writing part was broken out of the IRC bot and made standalone.
 Later, I also changed from writing discrete files for each statistic to a single file in JSON format.
 
-This version is essentially the one from FastVM, only with the IBM-internal presentation layer support removed (reverted to simple CSS).  Dependency on Apache Server-Side Includes (SSI) has also been removed.
+This version is essentially the one from z/VM ESI, only with the IBM-internal presentation layer support removed (reverted to simple CSS).  Dependency on Apache Server-Side Includes (SSI) has also been removed.
 
 ## Components
 The components of the tool are as follows:
